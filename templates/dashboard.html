@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Monitoring Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>AI Monitoring Dashboard</h1>
+
+<div class="card">
+
+<h2>Monitoring Results</h2>
+
+<h3>👥 Crowd Status</h3>
+<p>{{ crowd_status }}</p>
+
+<h3>📈 Occupancy</h3>
+<p>{{ occupancy }}%</p>
+
+<h3>🚶 Queue Length</h3>
+<p>{{ queue_length }}</p>
+
+<h3>⏱ Waiting Time</h3>
+<p>{{ waiting_time }}</p>
+
+<h3>⚠ Risk Level</h3>
+<p>{{ risk_level }}</p>
+
+<h3>🚨 Alert</h3>
+<p>{{ alert }}</p>
+
+<br>
+
+<a href="/">
+<button>⬅ Home</button>
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

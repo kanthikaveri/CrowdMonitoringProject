@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowd Monitoring</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>👥 Crowd Monitoring</h1>
+
+    <p class="subtitle">
+        Upload a video to analyze crowd density.
+    </p>
+
+    <div class="card">
+
+        <form action="/upload/crowd" method="POST" enctype="multipart/form-data">
+
+            <input
+                type="file"
+                name="video"
+                accept="video/*"
+                required
+            >
+
+            <br><br>
+
+            <button type="submit">
+                Analyze Crowd
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="/">
+            <button>
+                ⬅ Back to Home
+            </button>
+        </a>
+
+    </div>
+
+    <!-- Processed Video -->
+    <hr><br>
+{% if output_video %}
+
+<hr><br>
+
+<h2>Processed Video</h2>
+
+<video width="700" controls preload="auto">
+    <source src="{{ url_for('static', filename=output_video) }}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+{% endif %}
+</div>
+
+</body>
+</html>
