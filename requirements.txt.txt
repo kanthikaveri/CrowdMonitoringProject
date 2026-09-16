@@ -1,0 +1,125 @@
+import cv2
+import numpy as np
+
+# Load video
+cap = cv2.VideoCapture("videos/crowd.mp4")
+
+if not cap.isOpened():
+    print("Error: Unable to open video.")
+    exit()
+
+# Background subtractor
+fgbg = cv2.createBackgroundSubtractorMOG2(
+    history=500,
+    varThreshold=50,
+    detectShadows=False
+)
+
+frame_count = 0
+
+while True:
+
+    ret, frame = cap.read()
+
+    if not ret:
+        break
+
+    frame = cv2.resize(frame, (640, 480))
+
+    frame_count += 1
+
+    # Allow background model to stabilize
+    if frame_count < 30:
+        fgbg.apply(frame)
+        continue
+
+    # Foreground mask
+    fgmask = fgbg.apply(frame)
+
+    # Remove noise
+    kernel = np.ones((5, 5), np.uint8)
+    fgmask = cv2.morphologyEx(
+        fgmask,
+        cv2.MORPH_OPEN,
+        kernel
+    )
+
+    # Count moving pixels
+    moving_pixels = cv2.countNonZero(fgmask)
+
+    total_pixels = 640 * 480
+
+    occupancy = (moving_pixels / total_pixels) * 100
+
+    # Crowd Classification
+    if occupancy < 5:
+        crowd_status = "Sparse Crowd"
+    elif occupancy < 12:
+        crowd_status = "Moderate Crowd"
+    elif occupancy < 25:
+        crowd_status = "Dense Crowd"
+    else:
+        crowd_status = "Overcrowded"
+
+    # Alert
+    if crowd_status == "Overcrowded":
+        alert = "WARNING"
+        alert_color = (0, 0, 255)
+    else:
+        alert = "NORMAL"
+        alert_color = (0, 255, 0)
+
+    # Draw Information Panel
+    cv2.rectangle(frame, (10, 10), (340, 150), (0, 0, 0), -1)
+
+    cv2.putText(
+        frame,
+        "AI Crowd Monitoring System",
+        (20, 35),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.7,
+        (255, 255, 255),
+        2
+    )
+
+    cv2.putText(
+        frame,
+        f"Occupancy : {occupancy:.2f}%",
+        (20, 65),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.6,
+        (255, 255, 0),
+        2
+    )
+
+    cv2.putText(
+        frame,
+        f"Status : {crowd_status}",
+        (20, 95),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.6,
+        (0, 255, 255),
+        2
+    )
+
+    cv2.putText(
+        frame,
+        f"Alert : {alert}",
+        (20, 125),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.6,
+        alert_color,
+        2
+    )
+
+    # Show windows
+    cv2.imshow("Crowd Monitoring System", frame)
+    
+
+    key = cv2.waitKey(30) & 0xFF
+
+    if key == 27:  # ESC key
+        break
+
+cap.release()
+cv2.destroyAllWindows()
