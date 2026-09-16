@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue Monitoring</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🚶 Queue Monitoring</h1>
+
+    <p class="subtitle">
+        Upload a video to analyze queue length and waiting time.
+    </p>
+
+    <div class="card">
+
+        <form action="/upload/queue" method="POST" enctype="multipart/form-data">
+
+            <input
+                type="file"
+                name="video"
+                accept="video/*"
+                required
+            >
+
+            <br><br>
+
+            <button type="submit">
+                Analyze Queue
+            </button>
+
+        </form>
+
+        <br>
+
+        {% if queue_length is defined %}
+
+        <h3>Queue Length : {{ queue_length }}</h3>
+
+        {% endif %}
+
+        {% if waiting_time is defined %}
+
+        <h3>Estimated Waiting Time : {{ waiting_time }}</h3>
+
+        {% endif %}
+
+        {% if output_video %}
+
+        <hr>
+
+        <h3>Processed Video</h3>
+
+        <video width="700" controls>
+            <source
+                src="{{ url_for('static', filename=output_video) }}"
+                type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        {% endif %}
+
+        <br><br>
+
+        <!-- NEW -->
+        <a href="/dashboard">
+            <button>📊 Dashboard</button>
+        </a>
+
+        <br><br>
+
+        <a href="/">
+            <button>
+                ⬅ Back to Home
+            </button>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
