@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Crowd & Queue Monitoring System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>AI Crowd & Queue Monitoring System</h1>
+
+        <p class="subtitle">
+            Public Safety using Artificial Intelligence
+        </p>
+
+        <div class="cards">
+
+            <!-- Crowd Monitoring -->
+            <div class="card">
+
+                <h2>👥 Crowd Monitoring</h2>
+
+                <p>
+                    Analyze crowd density and generate alerts.
+                </p>
+
+                <a href="/crowd">
+                    <button>Open Module</button>
+                </a>
+
+            </div>
+
+            <!-- Queue Monitoring -->
+            <div class="card">
+
+                <h2>🚶 Queue Monitoring</h2>
+
+                <p>
+                    Analyze queues and estimate waiting time.
+                </p>
+
+                <a href="/queue">
+                    <button>Open Module</button>
+                </a>
+
+            </div>
+
+            <!-- Dashboard -->
+            <div class="card">
+
+                <h2>📊 Dashboard</h2>
+
+                <p>
+                    View combined crowd and queue monitoring results.
+                </p>
+
+                <a href="/dashboard">
+                    <button>Open Dashboard</button>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
